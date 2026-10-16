@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------
+#  Archivos generados por Maven / IntelliJ IDEA que NO se suben al repositorio
+# ---------------------------------------------------------------------------
+
+# Salida de la compilacion
+target/
+
+# Archivos propios de IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

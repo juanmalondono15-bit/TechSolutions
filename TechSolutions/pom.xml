@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  TechSolutions - Parcial II - Programacion II
+  ============================================================================
+  Proyecto Maven que empaqueta la aplicacion Java (JavaFX + MVC).
+  Se eligio Maven porque IntelliJ IDEA lo importa automaticamente y descarga
+  las dependencias de JavaFX, evitando tener que configurar el SDK a mano.
+
+  Comandos utiles:
+    mvnw.cmd clean javafx:run     -> compila y ejecuta la interfaz JavaFX
+    mvnw.cmd clean package        -> compila y genera el jar en target/
+    mvnw.cmd -q exec:java -Dexec.mainClass=com.techsolutions.consola.DemoConsola
+  ============================================================================
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.techsolutions</groupId>
+    <artifactId>techsolutions</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>TechSolutions</name>
+    <description>Sistema de gestion de servicios tecnologicos (Parcial II - Programacion II)</description>
+
+    <properties>
+        <!-- Codificacion de los fuentes (tildes y enes de la documentacion) -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--
+          Java 17: el proyecto compila con JDK 17 o superior (en el equipo del
+          parcial esta instalado el JDK 21 de Eclipse Adoptium).
+        -->
+        <maven.compiler.release>17</maven.compiler.release>
+
+        <!-- Version de JavaFX: coincide con la que hay instalada en el equipo -->
+        <javafx.version>21.0.6</javafx.version>
+    </properties>
+
+    <dependencies>
+        <!--
+          Unica dependencia del proyecto: JavaFX Controls (botones, tablas,
+          combo boxes, etc.). No se usa FXML: las vistas se construyen con
+          codigo Java, lo que mantiene el MVC explicito y sin archivos extra.
+        -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+              Plugin compilador fijado a una version moderna. Es necesario
+              indicarlo porque el plugin por defecto de Maven 3.8 es muy antiguo
+              (3.1) y no entiende la propiedad "maven.compiler.release".
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
+            <!--
+              Plugin de JavaFX: crea automaticamente el "module-path" y ejecuta
+              la aplicacion con:
+                  mvn javafx:run
+              Tambien permite ejecutarla desde el panel Maven de IntelliJ.
+            -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <!-- Clase que extiende javafx.application.Application -->
+                    <mainClass>com.techsolutions.Main</mainClass>
+                </configuration>
+            </plugin>
+
+            <!--
+              Plugin exec: permite ejecutar la demostracion por consola con:
+                  mvn exec:java
+              Sin abrir la interfaz grafica (util para probar la logica).
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <mainClass>com.techsolutions.consola.DemoConsola</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
